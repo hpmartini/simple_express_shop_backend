@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const Product = require('../models/Product')
-const {verifyAdminRole, verifyUser} = require("./verifyToken");
-const User = require("../models/User");
+const {verifyAdminRole} = require("./verifyToken");
 
 router.post('/', verifyAdminRole, async (req, res) => {
     const newProduct = new Product(req.body);
