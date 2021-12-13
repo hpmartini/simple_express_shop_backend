@@ -18,7 +18,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyUser = (req, res, next) => {
     verifyToken(req, res, () => {
-        if (req.user.id === req.params.id || req.user.isAdmin) {
+        if (req.user.id === req.params.id || req.user.isAdmin === true) {
             next();
         } else {
             res.status(403).json('Permission denied.')
@@ -28,7 +28,7 @@ const verifyUser = (req, res, next) => {
 
 const verifyAdminRole = (req, res, next) => {
     verifyToken(req, res, () => {
-        if (req.user.isAdmin) {
+        if (req.user.isAdmin === true) {
             next();
         } else {
             res.status(403).json('Permission denied.')
