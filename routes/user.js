@@ -1,4 +1,4 @@
-const {verifyUser} = require("./verifyToken");
+const {verifyUser, verifyAdminRole} = require("./verifyToken");
 const CryptoJS = require("crypto-js");
 const User = require('../models/User')
 const router = require('express').Router();
@@ -17,6 +17,28 @@ router.put('/:id', verifyUser, async (req, res) => {
             $set: req.body
         }, {new:true})
         res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
+
+// DELETE
+router.delete('/:id', verifyUser, async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.status(200).json('User has been deleted');
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
+
+// GET USER
+router.get('/find/:id', verifyAdminRole, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        const {password, ...userData} = user._doc;
+
+        res.status(200).json({...userData});
     } catch (error) {
         res.status(500).json(error);
     }
