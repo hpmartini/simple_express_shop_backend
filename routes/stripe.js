@@ -7,7 +7,6 @@ router.post("/payment", (req, res) => {
                 source: req.body.tokenId,
                 amount: req.body.amount,
                 currency: 'eur',
-                // description: 'My First Test Charge (created for API docs)',
             },
             (stripeErr, stripeRes) => {
                 if (stripeErr) {
